@@ -6,33 +6,13 @@ import Content from './Content';
 import Footer from './Footer';
 import React, { useState } from 'react'
 import AddItem from './AddItem';
+import SearchItem from './SearchItem';
 
 
 function App() {
-  const [items , setItems] = useState( [
-    {
-      id:1,
-      name:'carrot',
-      checked: false
-    },
-    {
-      id:2,
-      name:'tomato',
-      checked: false
-    },
-    {
-      id:3,
-      name:'potato',
-      checked: false
-    },
-    {
-      id:4,
-      name:'apple',
-      checked: false
-    }
-  ])
-
+  const [items , setItems] = useState(JSON.parse(localStorage.getItem('shoppinglist')));
   const [newItem, setNewItem] = useState('')
+  const [search, setSearch] = useState('')
 
   function setupAndSaveItem(newListItems){
     setItems(newListItems)
@@ -75,7 +55,12 @@ const addItem =(newItem) => {
           setNewItem ={setNewItem}
           handleSubmit={handleSubmit}  
       />
-      <Content items = {items}
+      <SearchItem 
+          search ={search}
+          setSearch ={setSearch}
+      />
+      <Content 
+        items ={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
         handleCheck ={ handleCheck}
         handleDelete ={ handleDelete}
       />
